@@ -1,41 +1,23 @@
 import * as courseQuery from "./course.data.js";
 import { AppError } from "../utils/AppError.js";
 
-export const createCourse = async (courseData, userId) => {
-  try {
-    const { title, description, price } = courseData;
-
-    if (!title || !price) {
-      throw new AppError("Title and price are required", 400);
-    }
-
-    const course = await courseQuery.createCourse({
-      title,
-      description: description || "",
-      price,
-      createdBy: userId,
-    });
-
-    return {
-      success: true,
-      message: "Course created successfully",
-      data: course,
-    };
-  } catch (error) {
-    if (error instanceof AppError) {
-      throw error;
-    }
-    throw new AppError(error.message || "Something went wrong", 500);
+export const createCourse = async (course) => {
+  const { title, price } = course;
+  if (!title || !price) {
+    throw new AppError("Title and price are required", 400);
   }
+  const newCourse = await courseQuery.createCourse(course);
+  return newCourse;
 };
 
-export const getAllCourses = async (orderArray) => {
-
-  const courses = await courseQuery.getAllCourses(orderArray);
-  return {
-    success: true,
-    data: courses,
-  };
+export const getAllCourses = async (order, limit, offset) => {
+  const courses = await courseQuery.getAllCourses(order, limit, offset);
+  if (courses.count === 0) {
+    return {
+      message: "No courses found",
+    };
+  }
+  return courses;
 };
 
 export const getCourseById = async (courseId) => {

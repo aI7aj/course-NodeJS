@@ -3,6 +3,7 @@ import * as hashing from "../../utils/hash.js";
 import { jwtGenerator } from "../../utils/jwt/jwtGenerator.js";
 import generateCode from "../../utils/generateCode.js";
 import { sendEmail } from "../../utils/email/nodemailer.js";
+import { sendSysEmail } from "../../utils/email/sendEmail.js";
 import {AppError} from "../../utils/AppError.js";
 export const register = async ({ name, email, password, role = "student" }) => {
   const userExists = await authQuery.findUserByEmail(email);
@@ -13,11 +14,12 @@ export const register = async ({ name, email, password, role = "student" }) => {
   const hashedPassword = await hashing.hash(password);
   const code = generateCode();
 
-  await sendEmail({
-    to: email,
-    subject: "Confirm Registration",
-    html: `Your confirmation code is: ${code}`,
-  });
+  // await sendEmail({
+  //   to: email,
+  //   subject: "Confirm Registration",
+  //   html: `Your confirmation code is: ${code}`,
+  // });
+  // await sendSysEmail("CONFIRMATION", email, code);
 
   const newUser = await authQuery.createUser({
     name,

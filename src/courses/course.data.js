@@ -13,19 +13,22 @@ export const createCourse = async (courseData) => {
   return course;
 };
 
-// تم تحديث المدخلات لتقبل مصفوفة الترتيب مباشرة
-export const getAllCourses = async (orderArray) => { 
+export const getAllCourses = async (order, page, limit, offset) => {
   const courses = await Course.findAll({
     where: { isDeleted: false },
-    include: {
-      model: Review,
-      attributes: ["comment"],
-    },
-    order: orderArray, // استخدام المصفوفة هنا مباشرةً
+    include: [
+      {
+        model: Review,
+        attributes: ["comment"],
+      },
+    ],
+    attributes: ["id", "price", "title", "description"],
+    order,
+    limit,
+    offset,
   });
   return courses;
 };
-
 export const getCourseById = async (courseId) => {
   if (!courseId) {
     throw new AppError("Course ID is required", 400);
@@ -68,7 +71,7 @@ export const deleteCourse = async (courseId) => {
 export const softDeleteCourse = async (courseId) => {
   const course = await Course.findByPk(courseId);
   if (!course) {
-    
+
     throw new AppError("Course not found", 404);
   }
   await course.update({ isDeleted: true });

@@ -5,10 +5,10 @@ const ConnectDB = async () => {
   {
     try {
       await sequelize.authenticate();
-      console.log("Database connection established successfully.");
+      console.log("connected to database");
       await sequelize.sync();
     } catch (error) {
-      console.error("Error connecting to the database:", error);
+      console.error("error connecting to the database:", error);
     }
   }
 };

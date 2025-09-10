@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { findUserByEmail } from "../modules/auth/auth.data.js";
 import { AppError } from "../utils/AppError.js";
 
-const authMiddlewareJWT = (allowedRoles = []) => {
+const authenticateJWT = (allowedRoles = []) => {
   return async (req, res, next) => {
     try {
       const authHeader = req.headers.authorization;
@@ -36,4 +36,4 @@ const authMiddlewareJWT = (allowedRoles = []) => {
 };
 
 
-export default authMiddlewareJWT;
+export default authenticateJWT;

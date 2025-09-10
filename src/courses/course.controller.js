@@ -10,22 +10,16 @@ export const createCourse = async (req, res, next) => {
   res.status(201).json(course);
 };
 
-export const getAllCoursesController = async (req, res, next) => {
-  try {
-    const allowedColumns = ["price", "title", "createdAt", "updatedAt"];
-    const { sortBy, order } = req.query;
-
-    const orderArray = buildOrderArray(sortBy, order, allowedColumns);
-
-    if (orderArray.length === 0) {
-      return res.status(400).json({ message: "Invalid sort columns or order direction" });
-    }
-    
-    const courses = await courseService.getAllCourses(orderArray); 
-    
-    res.status(200).json(courses);
-  } catch (err) {
-    next(err);
+export const getAllCourses = async (req, res, next) => {
+  const { limit, page, offset } = getPaginiation(req);
+  const allowedColumns = ["price"];
+  const order = buildOrderArray(req.query.sortBy, req.query.order, allowedColumns);
+  const data = await courseService.getAllCourses(order, limit, offset);
+  if(data.message){
+    return res.status(200).json(data);
+  } else {
+    const response = getPaginiationData(data, page, limit);
+    return res.status(200).json({ message: "success", ...response });
   }
 };
 

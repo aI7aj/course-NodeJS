@@ -1,4 +1,4 @@
-import globalErrorHandler from "../src/middlewares/globalErrorHandlers.js";
+import globalErrorHandler from "./middlewares/globalErrorHandlers.js";
 import authRouter from "./modules/auth/auth.router.js";
 import courseRouter from "./courses/course.router.js";
 import enrollmentRouter from "./modules/enrollments/enrollments.router.js";

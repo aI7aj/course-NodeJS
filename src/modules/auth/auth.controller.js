@@ -1,16 +1,23 @@
 import * as authService from "./auth.service.js";
 
-export const register = async (req, res) => {
-  try {
-    const result = await authService.register(req.body);
-    res.status(201).json({
-      message: "User registered successfully",
-      user: result,
-    });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+// export const register = async (req, res) => {
+//   try {
+//         console.log("Register endpoint hit:", req.body);
+
+//     const result = await authService.register(req.body);
+//     res.status(201).json({
+//       message: "User registered successfully",
+//       user: result,
+//     });
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+export const register = (req, res) => {
+  console.log("Register hit:", req.body);
+  res.json({ message: "Register endpoint works", body: req.body });
 };
+
 
 export const login = async (req, res) => {
   try {

@@ -6,6 +6,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+ 
 await ConnectDB().then(() => {
   init(express, app);
   console.log("Database connected successfully.");
