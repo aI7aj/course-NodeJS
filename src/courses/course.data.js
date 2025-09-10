@@ -1,6 +1,6 @@
 import Course from "../../database/models/course.model.js";
 import { AppError } from "../utils/AppError.js";
-
+import Review from "../../database/models/review.model.js";
 export const createCourse = async (courseData) => {
   const { title, price } = courseData;
 
@@ -15,6 +15,11 @@ export const createCourse = async (courseData) => {
 export const getAllCourses = async () => {
   const courses = await Course.findAll({
     where: { isDeleted: false },
+    include: {
+      model: Review,
+      attributes: ["comment"],
+    },
+    order:[["price", "ASC"]],
   });
   return courses;
 };
@@ -65,4 +70,3 @@ export const softDeleteCourse = async (courseId) => {
   await course.update({ isDeleted: true });
   return course;
 };
-

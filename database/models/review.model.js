@@ -9,7 +9,7 @@ const Review = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    Comment: {
+    comment: {
       type: DataTypes.STRING,
       allowNull: false,
     },
