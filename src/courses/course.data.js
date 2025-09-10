@@ -1,6 +1,7 @@
 import Course from "../../database/models/course.model.js";
 import { AppError } from "../utils/AppError.js";
 import Review from "../../database/models/review.model.js";
+
 export const createCourse = async (courseData) => {
   const { title, price } = courseData;
 
@@ -12,17 +13,19 @@ export const createCourse = async (courseData) => {
   return course;
 };
 
-export const getAllCourses = async () => {
+// تم تحديث المدخلات لتقبل مصفوفة الترتيب مباشرة
+export const getAllCourses = async (orderArray) => { 
   const courses = await Course.findAll({
     where: { isDeleted: false },
     include: {
       model: Review,
       attributes: ["comment"],
     },
-    order:[["price", "ASC"]],
+    order: orderArray, // استخدام المصفوفة هنا مباشرةً
   });
   return courses;
 };
+
 export const getCourseById = async (courseId) => {
   if (!courseId) {
     throw new AppError("Course ID is required", 400);
@@ -65,6 +68,7 @@ export const deleteCourse = async (courseId) => {
 export const softDeleteCourse = async (courseId) => {
   const course = await Course.findByPk(courseId);
   if (!course) {
+    
     throw new AppError("Course not found", 404);
   }
   await course.update({ isDeleted: true });

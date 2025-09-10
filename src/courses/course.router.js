@@ -12,7 +12,7 @@ router.post(
   asyncHandler(controller.createCourse)
 );
 
-router.get("/", asyncHandler(controller.getAllCourses));
+router.get("/", asyncHandler(controller.getAllCoursesController));
 router.get("/:id", asyncHandler(controller.getCourseById));
 
 router.patch(

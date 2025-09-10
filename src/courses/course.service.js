@@ -29,8 +29,9 @@ export const createCourse = async (courseData, userId) => {
   }
 };
 
-export const getAllCourses = async () => {
-  const courses = await courseQuery.getAllCourses();
+export const getAllCourses = async (orderArray) => {
+
+  const courses = await courseQuery.getAllCourses(orderArray);
   return {
     success: true,
     data: courses,
@@ -85,14 +86,14 @@ export const deleteCourse = async (courseId) => {
 };
 
 export const softDeleteCourse = async (courseId) => {
-    const course = await courseQuery.getCourseById(courseId);
-    if (!course) {
-      throw new AppError("Course not found", 404);
-    }
-    await courseQuery.softDeleteCourse(courseId);
-  
-    return {
-      success: true,
-      message: "Course soft deleted successfully",
-    };
-}
+  const course = await courseQuery.getCourseById(courseId);
+  if (!course) {
+    throw new AppError("Course not found", 404);
+  }
+  await courseQuery.softDeleteCourse(courseId);
+
+  return {
+    success: true,
+    message: "Course soft deleted successfully",
+  };
+};
