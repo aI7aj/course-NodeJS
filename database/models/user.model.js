@@ -9,7 +9,7 @@ const User = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -26,7 +26,7 @@ const User = sequelize.define(
       type: DataTypes.ENUM("active", "inactive"),
       defaultValue: "active",
     },
-    code: {
+    codeVerification: {
       type: DataTypes.STRING,
     },
     isConfirmed: {

@@ -14,18 +14,15 @@ export const VERIFICATION_EMAIL_TEMPLATE = `
   <div style="padding: 20px; background-color: #111; border-radius: 10px; max-width: 600px; margin: auto;">
     <p>Hi,</p>
     <p>We’re excited to have you on board at My Courses Project!</p>
-    <p>Before you can start exploring our courses, please verify your email by clicking the button below:</p>
+    <p>Before you can start exploring our courses, please verify your email, Below is your verification code:</p>
     <div style="text-align: center; margin: 30px 0;">
-      <div class="code">%%VERIFICATION_CODE%%</div>
-         style="background-color: #fff;
-                color: #000;
+      <div style="background-color: #fff;
+                color: #000; 
                 padding: 12px 24px;
                 text-decoration: none;
                 border-radius: 5px;
-                font-weight: bold;">
-        VERIFY EMAIL
-      </a>
-    </div>
+                font-weight: bold;">%%VERIFICATION_CODE%%</div>
+             </div>
     <p>This link will expire in 1 hour.</p>
     <p>If you didn’t request this, just ignore this email.</p>
     <p>—  al7aj test course project</p>

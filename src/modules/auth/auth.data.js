@@ -11,9 +11,9 @@ export const createUser = async (data) => {
 
 export const confirmEmail = async (email, code) => {
   await User.update(
-    { code: null, isConfirmed: true },
+    { codeVerification: null, isConfirmed: true },
     {
-      where: { email },
+      where: { email, codeVerification: code },
     }
   );  
 };

@@ -5,31 +5,30 @@ import generateCode from "../../utils/generateCode.js";
 import { sendEmail } from "../../utils/email/nodemailer.js";
 import { sendSysEmail } from "../../utils/email/sendEmail.js";
 import {AppError} from "../../utils/AppError.js";
+
 export const register = async ({ name, email, password, role = "student" }) => {
   const userExists = await authQuery.findUserByEmail(email);
   if (userExists) {
-    throw new AppError("User already exists", 409);
+    throw new AppError("User with this email already exists", 409);
   }
 
   const hashedPassword = await hashing.hash(password);
   const code = generateCode();
 
-  // await sendEmail({
-  //   to: email,
-  //   subject: "Confirm Registration",
-  //   html: `Your confirmation code is: ${code}`,
-  // });
-  // await sendSysEmail("CONFIRMATION", email, code);
+  await sendSysEmail("CONFIRMATION", email, code);
 
   const newUser = await authQuery.createUser({
-    name,
+    username: name,
     email,
     password: hashedPassword,
-    code,
+    codeVerification: code,
     isConfirmed: false,
     role,
   });
-  return newUser;
+  return {
+    username: newUser.username,
+    email: newUser.email,
+  };
 };
 
 export const login = async ({ email, password }) => {
@@ -58,7 +57,7 @@ export const confirmEmail = async ({ email, code }) => {
   if (user.isConfirmed) {
     throw new AppError("Email is already confirmed", 400);
   }
-  if (user.code !== code) {
+  if (user.codeVerification !== code) {
     throw new AppError("Invalid confirmation code", 400);
   }
   await authQuery.confirmEmail(email, code);

@@ -6,6 +6,6 @@ const router = Router();
 
 router.post("/register", asyncHandler(controller.register));
 router.post("/login", asyncHandler(controller.login));
-router.post("/confirm-email", asyncHandler(controller.confirmEmail));
+router.post("/emailConfirm", asyncHandler(controller.confirmEmail));
 
 export default router;
