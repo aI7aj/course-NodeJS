@@ -7,7 +7,7 @@ export const getPaginiation = (req) => {
 
 export const getPaginiationData = (data, page) => {
     const { count: totalItems, rows: results } = data;
-    const totalPages = Math.ceil(totalItems / (data.limit || 5));
+    const totalPages = limit > 0 ? Math.ceil(totalItems / limit) : 1;
     return {
         pagination: {
             totalItems,

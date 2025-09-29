@@ -1,8 +1,8 @@
 import { Router } from "express";
 import * as controller from "./course.controller.js";
-import asyncHandler from "../utils/asyncHandler.js";
-import authMiddlewareJWT from "../middlewares/authMiddleWare.js";
-import Roles from "../../database/Roles.js";
+import asyncHandler from "../../utils/asyncHandler.js";
+import authMiddlewareJWT from "../../middlewares/authMiddleWare.js";
+import Roles from "../../../database/Roles.js";
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.post(
   asyncHandler(controller.createCourse)
 );
 
-router.get("/", asyncHandler(controller.getAllCoursesController));
+router.get("/", asyncHandler(controller.getAllCourses));
 router.get("/:id", asyncHandler(controller.getCourseById));
 
 router.patch(

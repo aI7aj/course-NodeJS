@@ -1,5 +1,5 @@
 import * as courseQuery from "./course.data.js";
-import { AppError } from "../utils/AppError.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const createCourse = async (course) => {
   const { title, price } = course;
@@ -10,8 +10,8 @@ export const createCourse = async (course) => {
   return newCourse;
 };
 
-export const getAllCourses = async (order, limit, offset) => {
-  const courses = await courseQuery.getAllCourses(order, limit, offset);
+export const getAllCourses = async (order) => {
+  const courses = await courseQuery.getAllCourses(order);
   if (courses.count === 0) {
     return {
       message: "No courses found",
@@ -25,15 +25,22 @@ export const getCourseById = async (courseId) => {
     throw new AppError("Course ID is required", 400);
   }
 
-  const course = await courseQuery.getCourseById(courseId);
-
+  const course = await courseQuery.getCourseById(courseId, {
+    where: {
+      isDeleted: false
+    }
+  })
   if (!course) {
     throw new AppError("Course not found", 404);
   }
 
   return {
-    success: true,
-    data: course,
+    course: {
+      id: course.id,
+      title: course.title,
+      description: course.description,
+      price: course.price,
+    },
   };
 };
 export const updateCourse = async (courseId, updateData) => {

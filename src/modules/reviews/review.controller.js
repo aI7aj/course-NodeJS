@@ -11,7 +11,6 @@ const createReview = async (req, res) => {
     comment,
   });
   res.status(201).json({
-    message: "Review created successfully",
     review,
   });
 };

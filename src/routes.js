@@ -1,6 +1,6 @@
 import globalErrorHandler from "./middlewares/globalErrorHandlers.js";
 import authRouter from "./modules/auth/auth.router.js";
-import courseRouter from "./courses/course.router.js";
+import courseRouter from "./modules/courses/course.router.js";
 import enrollmentRouter from "./modules/enrollments/enrollments.router.js";
 import reviewRouter from "./modules/reviews/review.router.js"
 export function init(express, app) {

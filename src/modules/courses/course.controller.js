@@ -1,7 +1,7 @@
 import * as courseService from "./course.service.js";
-import { AppError } from "../utils/AppError.js";
-import buildOrderArray from "../utils/sorting/sortQuery.js";
-
+import { AppError } from "../../utils/AppError.js";
+import buildOrderArray from "../../utils/sorting/sortQuery.js";
+import { getPaginiation, getPaginiationData } from "../../utils/pagination/pagination.js";
 export const createCourse = async (req, res, next) => {
   if (!req.user || !req.user.id) {
     return next(new AppError("User not authenticated", 401));
@@ -11,15 +11,19 @@ export const createCourse = async (req, res, next) => {
 };
 
 export const getAllCourses = async (req, res, next) => {
-  const { limit, page, offset } = getPaginiation(req);
-  const allowedColumns = ["price"];
-  const order = buildOrderArray(req.query.sortBy, req.query.order, allowedColumns);
-  const data = await courseService.getAllCourses(order, limit, offset);
-  if(data.message){
-    return res.status(200).json(data);
-  } else {
-    const response = getPaginiationData(data, page, limit);
-    return res.status(200).json({ message: "success", ...response });
+  try {
+    const allowedColumns = ["price"];
+    const order = buildOrderArray(req.query.sortBy, req.query.order, allowedColumns);
+
+    const data = await courseService.getAllCourses(order);
+
+    if (data?.message) {
+      return res.status(200).json(data);
+    }
+
+    return res.status(200).json({ message: "success", results: data });
+  } catch (err) {
+    next(err);
   }
 };
 

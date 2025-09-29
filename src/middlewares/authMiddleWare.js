@@ -9,12 +9,10 @@ const authenticateJWT = (allowedRoles = []) => {
       if (!authHeader) {
         return next(new AppError("Token not found", 401));
       }
-
-     
+      
       const token = authHeader;
       
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
       const user = await findUserByEmail(decoded.email);
       if (!user) {
         return next(new AppError("User not found", 401));
@@ -28,7 +26,7 @@ const authenticateJWT = (allowedRoles = []) => {
       next();
     } catch (err) {
       if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
-        return next(new AppError("Invalid or expired token", 401));
+        return next(new AppError("Invalid or expired token: " + err.message, 401));
       }
       next(err);
     }

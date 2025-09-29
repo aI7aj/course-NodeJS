@@ -1,6 +1,6 @@
-import Course from "../../database/models/course.model.js";
-import { AppError } from "../utils/AppError.js";
-import Review from "../../database/models/review.model.js";
+import Course from "../../../database/models/course.model.js";
+import { AppError } from "../../utils/AppError.js";
+import Review from "../../../database/models/review.model.js";
 
 export const createCourse = async (courseData) => {
   const { title, price } = courseData;
