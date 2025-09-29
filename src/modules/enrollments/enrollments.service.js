@@ -1,3 +1,4 @@
+import enrollment from "../../../database/models/enrollment.model.js";
 import * as enrollmentsQuery from "./enrollments.data.js";
 
 export const enrollInCourse = async (userId, courseId) => {

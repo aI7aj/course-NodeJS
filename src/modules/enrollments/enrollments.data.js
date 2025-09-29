@@ -15,12 +15,11 @@ export const createEnrollment = async (userId, courseId) => {
 export const findEnrollments = async (userId) => {
   return await Enrollment.findAll({
     where: { userId },
-    attributes: { exclude: ["createdAt", "updatedAt"] },
     include: [
       {
         model: Course,
         as: "courseDetails",
-        attributes: ["id", "title", "price"],
+        attributes: ["id", "title", "description"],
       },
     ],
   });
